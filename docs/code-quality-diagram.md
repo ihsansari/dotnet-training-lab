@@ -1,28 +1,31 @@
 ```mermaid
-flowchart LR
-  Dev[Developer] -->|push| PR[Pull Request -> develop]
-  PR --> CI[GitHub Actions CI]
+  Dev["Developer"] --> PR["PR to develop"]
+  PR --> CI["GitHub Actions<br/>ci.yml"]
 
-  CI --> SDK[setup-dotnet (global.json)]
-  SDK --> R[dotnet restore\n-warnaserror: NU1902,NU1903,NU1904]
-  R -->|NU1902/3/4 found| Fail[CI fails\nmerge blocked]
-  R -->|OK| B[dotnet build --no-restore\n-p:ContinuousIntegrationBuild=true]
-  B --> Pass[CI passes]
-  Pass --> Merge[Merge to develop]
+  CI --> SDK["setup-dotnet<br/>uses global.json"]
+  SDK --> R["dotnet restore<br/>-warnaserror:NU1902,NU1903,NU1904"]
+
+  R -->|vulnerabilities found| Fail["CI fails<br/>merge blocked"]
+  R -->|clean| B["dotnet build --no-restore<br/>-p:ContinuousIntegrationBuild=true"]
+
+  B --> Pass["CI passes"]
+  Pass --> Merge["Merge to develop"]
 flowchart TB
-  GJ[global.json\npin SDK] --> Toolchain[Reproducible toolchain]
-  DBP[Directory.Build.props\nNuGetAudit + CI policy] --> Audit[Detect vulnerable dependencies]
-  DPP[Directory.Packages.props\nCPM] --> Versions[Centralized versions]
-  DEP[dependabot.yml] --> Updates[Automated update PRs]
-  CIY[ci.yml] --> Gate[Enforced CI gate]
-  CL[CHANGELOG.md] --> Rationale[Decision trace]
+  GJ["global.json<br/>pin SDK"] --> Toolchain["Reproducible toolchain"]
+
+  DPP["Directory.Packages.props<br/>central versions (CPM)"] --> Versions["Controlled package versions"]
+  DBP["Directory.Build.props<br/>NuGet audit policy"] --> Audit["Detect known vulnerable dependencies"]
+
+  DEP["dependabot.yml<br/>automated updates"] --> Updates["Update PRs"]
+  CIY["ci.yml<br/>enforced CI gate"] --> Gate["Blocks vulnerable dependencies"]
+  CL["CHANGELOG.md<br/>security rationale"] --> Rationale["Audit trail"]
 
   Toolchain --> Gate
-  Audit --> Gate
   Versions --> Audit
   Updates --> Versions
+  Audit --> Gate
   Rationale --> Gate
 flowchart LR
-  Change[New package reference\n(direct or transitive)] --> Restore[dotnet restore]
-  Restore -->|NU1902/NU1903/NU1904| Stop[Stop: fail CI]
-  Restore -->|No NU1902-1904| Continue[Continue: build/test/review]
+  Change["Dependency change<br/>(direct or transitive)"] --> Restore["Restore + audit"]
+  Restore -->|NU1902-NU1904| Stop["Fail CI"]
+  Restore -->|no findings| Continue["Proceed (build/review/merge)"]
