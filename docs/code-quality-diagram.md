@@ -1,4 +1,5 @@
 ```mermaid
+flowchart LR
   Dev["Developer"] --> PR["PR to develop"]
   PR --> CI["GitHub Actions<br/>ci.yml"]
 
