@@ -69,8 +69,12 @@ We run:
   - **Security impact**: Ensures CI/tooling/auditing run against an actual .NET 10 target early (reduces surprises later) and sets the baseline for HTTPS/HSTS-by-default API hardening.
 
 - `src/ST.Security.Api/Program.cs`
-  - **Why these defaults**:
-    - `app.UseHsts()` (only outside Development): enables HSTS so browsers are instructed to use HTTPS for subsequent requests; we keep it off in Development to avoid sticky browser caching issues and keep local dev predictable. :contentReference[oaicite:0]{index=0}
-    - `app.UseHttpsRedirection()`: redirects any HTTP request to HTTPS, reducing the chance of accidental plaintext traffic. :contentReference[oaicite:1]{index=1}
-    - `app.MapGet("/health", ...)`: provides a minimal health endpoint for monitoring/orchestrators (liveness-style signal). Kept intentionally simple to avoid exposing internal details. :contentReference[oaicite:2]{index=2}
+  - **Why these defaults / what they do (and which headers you get)**:
+    - `app.UseHsts()` (only outside Development):
+      - Adds the response header **`Strict-Transport-Security`** (HSTS). Default `max-age` is **30 days** if you don’t configure it (e.g., `Strict-Transport-Security: max-age=2592000`). Browsers that honor HSTS will automatically prefer HTTPS for this host going forward. :contentReference[oaicite:0]{index=0}
+      - Kept off in Development because browsers cache HSTS aggressively (can “brick” local HTTP testing); loopback hosts are excluded by default.
+    - `app.UseHttpsRedirection()`:
+      - For an **HTTP** request, returns a redirect using the default **307 Temporary Redirect** and includes a **`Location`** header pointing to the HTTPS URL. This reduces accidental plaintext access (but ideally APIs should not listen on HTTP at all in production).
+    - `app.MapGet("/health", () => Results.Ok("ok"))`:
+      - Exposes a minimal **health endpoint** for monitors/orchestrators (returns 200 with a tiny body). Content-Type depends on how you return data (e.g., returning a plain string directly is `text/plain`; object results are typically `application/json`). Keep it intentionally non-verbose to avoid leaking internal details.
 
