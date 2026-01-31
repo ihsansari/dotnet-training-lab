@@ -1,0 +1,26 @@
+name: ci
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET (from global.json)
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Restore (fail on vulnerable packages)
+        run: dotnet restore ST.Security.slnx -warnaserror NU1902;NU1903;NU1904
+
+      - name: Build (CI mode, no implicit restore)
+        run: dotnet build ST.Security.slnx -c Release --no-restore -p:ContinuousIntegrationBuild=true
+

@@ -26,3 +26,19 @@ reproducible builds + supply-chain hygiene (fast patching of known vulnerabiliti
 - `ST.Security.sln`
   - **Why**: Stable entry point for restore/build across tools and CI.
   - **Security impact**: Makes it easy to run consistent restore/audit/build checks as the repo grows (single command surface). :contentReference[oaicite:4]{index=4}
+
+- `.github/workflows/ci.yml`
+  - **Why**: Runs `restore` + `build` on every PR/push to `develop` using the SDK pinned in `global.json`.
+  - **Security impact**: Enforces dependency vulnerability auditing in CI (restore warnings NU1902–NU1904) and blocks merges when moderate/high/critical vulnerable packages are present, instead of relying on local dev machines.
+  - **Implementation**: Uses `actions/setup-dotnet` with `global-json-file`, and builds with `-p:ContinuousIntegrationBuild=true` so repo rules can treat vulnerability warnings as errors.
+
+### Why we enforce restore + build like this (security)
+
+We run:
+
+- `dotnet restore -warnaserror NU1902;NU1903;NU1904`
+- `dotnet build --no-restore -p:ContinuousIntegrationBuild=true`
+
+**What we gain:** `dotnet restore` emits vulnerability warnings by default on .NET 8+ SDKs, and `NU1902–NU1904` correspond to **moderate / high / critical** known vulnerabilities. Turning them into errors makes vulnerable dependencies a **hard CI gate** (the job fails, so the PR cannot be merged). :contentReference[oaicite:0]{index=0}
+
+`--no-restore` ensures the build step does not perform an implicit restore (which could otherwise re-run dependency resolution) and keeps **restore as the single enforced policy point**. Setting `ContinuousIntegrationBuild=true` enables CI-only build behavior recommended for official builds and lets repo rules apply consistently in CI. :contentReference[oaicite:1]{index=1}
