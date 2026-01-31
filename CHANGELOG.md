@@ -36,8 +36,8 @@ reproducible builds + supply-chain hygiene (fast patching of known vulnerabiliti
 
 We run:
 
-- `dotnet restore -warnaserror NU1902;NU1903;NU1904`
-- `dotnet build --no-restore -p:ContinuousIntegrationBuild=true`
+- `dotnet restore ST.Security.slnx -warnaserror:NU1902,NU1903,NU1904`
+- `dotnet build ST.Security.slnx -c Release --no-restore -p:ContinuousIntegrationBuild=true`
 
 **What we gain:** `dotnet restore` emits vulnerability warnings by default on .NET 8+ SDKs, and `NU1902–NU1904` correspond to **moderate / high / critical** known vulnerabilities. Turning them into errors makes vulnerable dependencies a **hard CI gate** (the job fails, so the PR cannot be merged).
 
