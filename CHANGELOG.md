@@ -85,3 +85,6 @@ We run:
 - `docs/security/hsts-preload.md`
   - **Why**: Documents HSTS preload as an explicit security/ops policy decision (not a default toggle).
   - **Security impact**: Helps avoid unsafe or irreversible rollout (preload requires strict HTTPS on all subdomains and is hard to undo quickly).
+
+- `packages.lock.json` (per project) + CI locked restore
+  - **Security impact**: prevents unreviewed transitive dependency drift; CI fails if dependency resolution would change, forcing explicit review of dependency updates.
