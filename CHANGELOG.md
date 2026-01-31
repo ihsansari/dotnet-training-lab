@@ -51,3 +51,11 @@ We run:
 - `.github/workflows/dependency-review.yml`
   - **Why**: Reviews dependency changes introduced by each pull request.
   - **Security impact**: Fails the PR if it introduces dependencies with known vulnerabilities at or above the configured severity threshold (here: moderate). This makes “new vulnerable dependency introduced by a PR” a hard merge blocker.
+
+## 2026-01-31 — NuGet source mapping baseline
+
+### Added
+
+- `nuget.config`
+  - **Why**: Explicitly defines the allowed package source(s) and uses Package Source Mapping.
+  - **Security impact**: Improves supply-chain security and determinism by controlling which source(s) NuGet will search for packages (especially important once private feeds exist).
