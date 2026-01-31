@@ -48,3 +48,11 @@ We run:
 - `.github/workflows/dependency-review.yml`
   - **Why**: Adds an explicit PR gate for newly introduced dependency risk.
   - **Security impact**: Fails the PR if it introduces dependencies with known vulnerabilities at or above the configured severity (here: `moderate`), so risky dependency changes are blocked before merge.
+
+## 2026-01-31 — PR dependency review gate
+
+### Added
+
+- `.github/workflows/dependency-review.yml`
+  - **Why**: Reviews dependency changes introduced by each pull request.
+  - **Security impact**: Fails the PR if it introduces dependencies with known vulnerabilities at or above the configured severity threshold (here: moderate). This makes “new vulnerable dependency introduced by a PR” a hard merge blocker.
