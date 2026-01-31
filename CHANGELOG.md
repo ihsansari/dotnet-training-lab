@@ -43,11 +43,6 @@ We run:
 
 `--no-restore` ensures the build step does not perform an implicit restore (which could otherwise re-run dependency resolution) and keeps **restore as the single enforced policy point**. Setting `ContinuousIntegrationBuild=true` enables CI-only build behavior recommended for official builds and lets repo rules apply consistently in CI.
 
-### Added
-
-- `.github/workflows/dependency-review.yml`
-  - **Why**: Adds an explicit PR gate for newly introduced dependency risk.
-  - **Security impact**: Fails the PR if it introduces dependencies with known vulnerabilities at or above the configured severity (here: `moderate`), so risky dependency changes are blocked before merge.
 
 ## 2026-01-31 — PR dependency review gate
 
