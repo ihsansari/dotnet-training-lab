@@ -2,6 +2,7 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
     <!-- NuGet vulnerability auditing (repo-level recommended) -->
     <NuGetAudit>true</NuGetAudit>
