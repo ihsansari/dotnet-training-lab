@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- NuGet vulnerability auditing (repo-level recommended) -->
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditLevel>moderate</NuGetAuditLevel>
+
+    <!-- Fail CI on vulnerability warnings (NU1902+). Keep local dev less noisy. -->
+    <WarningsAsErrors Condition="'$(ContinuousIntegrationBuild)' == 'true'">
+      $(WarningsAsErrors);NU1902;NU1903;NU1904
+    </WarningsAsErrors>
+  </PropertyGroup>
+</Project>
