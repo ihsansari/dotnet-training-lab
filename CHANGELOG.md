@@ -59,3 +59,18 @@ We run:
 - `nuget.config`
   - **Why**: Explicitly defines the allowed package source(s) and uses Package Source Mapping.
   - **Security impact**: Improves supply-chain security and determinism by controlling which source(s) NuGet will search for packages (especially important once private feeds exist).
+
+## 2026-01-31 — First .NET 10 project
+
+### Added
+
+- `src/ST.Security.Api/*`
+  - **Why**: Establishes a real `net10.0` project with a stable, unique `ST.*` name and integrates it into the `.slnx`.
+  - **Security impact**: Ensures CI/tooling/auditing run against an actual .NET 10 target early (reduces surprises later) and sets the baseline for HTTPS/HSTS-by-default API hardening.
+
+- `src/ST.Security.Api/Program.cs`
+  - **Why these defaults**:
+    - `app.UseHsts()` (only outside Development): enables HSTS so browsers are instructed to use HTTPS for subsequent requests; we keep it off in Development to avoid sticky browser caching issues and keep local dev predictable. :contentReference[oaicite:0]{index=0}
+    - `app.UseHttpsRedirection()`: redirects any HTTP request to HTTPS, reducing the chance of accidental plaintext traffic. :contentReference[oaicite:1]{index=1}
+    - `app.MapGet("/health", ...)`: provides a minimal health endpoint for monitoring/orchestrators (liveness-style signal). Kept intentionally simple to avoid exposing internal details. :contentReference[oaicite:2]{index=2}
+

@@ -1,2 +1,5 @@
 <Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ST.Security.Api/ST.Security.Api.csproj" />
+  </Folder>
 </Solution>
