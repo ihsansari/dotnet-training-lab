@@ -78,3 +78,10 @@ We run:
     - `app.MapGet("/health", () => Results.Ok("ok"))`:
       - Exposes a minimal **health endpoint** for monitors/orchestrators (returns 200 with a tiny body). Content-Type depends on how you return data (e.g., returning a plain string directly is `text/plain`; object results are typically `application/json`). Keep it intentionally non-verbose to avoid leaking internal details.
 
+
+## 2026-01-31 — HSTS preload documentation
+
+### Added
+- `docs/security/hsts-preload.md`
+  - **Why**: Documents HSTS preload as an explicit security/ops policy decision (not a default toggle).
+  - **Security impact**: Helps avoid unsafe or irreversible rollout (preload requires strict HTTPS on all subdomains and is hard to undo quickly).

@@ -1,16 +1,28 @@
-## HSTS preload (hstspreload.org) — optional, high commitment
+# HSTS preload (hstspreload.org) — policy note
 
-HSTS (`Strict-Transport-Security`) is enabled to force browsers to use HTTPS. If we also choose **HSTS preloading**, the domain can be shipped in the browser preload list, reducing “first-visit downgrade” risk. This is optional and must be treated as an operational commitment.
+## What it is
+HSTS uses the `Strict-Transport-Security` header to tell browsers: "always use HTTPS for this domain".
+Preloading goes further: browsers ship a built-in list so HTTPS is enforced even on first visit.
 
-### Requirements (to be eligible for preload)
-- `Strict-Transport-Security` must include:
-  - `max-age >= 31536000` (1 year)
-  - `includeSubDomains`
-  - `preload`
-- HTTPS must work for the apex domain and **all subdomains**, and redirects must also send the HSTS header.
+## Why it matters
+Preload reduces first-visit downgrade risk, but it is a long-term operational commitment.
 
-### Risk / caution
-- Sending `preload` can have long-lasting impact. If any subdomain can’t serve HTTPS later, users may be blocked.
-- Removal from the preload list can take weeks to propagate to users.
+## Preload requirements (high-level)
+To be eligible for preload, your site must send `Strict-Transport-Security` with:
+- `max-age >= 31536000` (1 year)
+- `includeSubDomains`
+- `preload`
 
-Reference: hstspreload.org (submission rules and removal guidance).
+And HTTPS must work for the apex domain and all subdomains.
+
+## Risks / caution
+- If any subdomain cannot serve HTTPS later, users may be blocked (browsers will force HTTPS).
+- Removal from the preload list can take time to propagate.
+
+## ASP.NET Core notes
+- Setting `options.Preload = true` adds the `preload` directive to the header.
+- This does NOT automatically add your domain to the browser preload list; you still must meet requirements and submit.
+
+Example (only if you commit to preload as a policy):
+- AddHsts: Preload=true, IncludeSubDomains=true, MaxAge>=365 days
+- UseHsts: enabled only outside Development
