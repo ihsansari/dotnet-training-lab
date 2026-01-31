@@ -42,3 +42,17 @@ We run:
 **What we gain:** `dotnet restore` emits vulnerability warnings by default on .NET 8+ SDKs, and `NU1902–NU1904` correspond to **moderate / high / critical** known vulnerabilities. Turning them into errors makes vulnerable dependencies a **hard CI gate** (the job fails, so the PR cannot be merged).
 
 `--no-restore` ensures the build step does not perform an implicit restore (which could otherwise re-run dependency resolution) and keeps **restore as the single enforced policy point**. Setting `ContinuousIntegrationBuild=true` enables CI-only build behavior recommended for official builds and lets repo rules apply consistently in CI.
+
+### Added
+
+- `.github/workflows/dependency-review.yml`
+  - **Why**: Adds an explicit PR gate for newly introduced dependency risk.
+  - **Security impact**: Fails the PR if it introduces dependencies with known vulnerabilities at or above the configured severity (here: `moderate`), so risky dependency changes are blocked before merge.
+
+## 2026-01-31 — PR dependency review gate
+
+### Added
+
+- `.github/workflows/dependency-review.yml`
+  - **Why**: Reviews dependency changes introduced by each pull request.
+  - **Security impact**: Fails the PR if it introduces dependencies with known vulnerabilities at or above the configured severity threshold (here: moderate). This makes “new vulnerable dependency introduced by a PR” a hard merge blocker.
