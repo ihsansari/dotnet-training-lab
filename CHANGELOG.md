@@ -96,6 +96,9 @@ We run:
   - **Why**: Documents what `packages.lock.json` locks and how we enforce it in CI.
   - **Security impact**: Prevents unreviewed transitive dependency drift and adds integrity checking via package content hashes.
 
+- NuGet lock files (`packages.lock.json`) + CI locked restore
+  - Security impact: prevents silent transitive dependency drift; CI fails unless dependency changes are explicit and reviewable.
+
 ## 2026-01-31 — Security policy
 
 ### Added
