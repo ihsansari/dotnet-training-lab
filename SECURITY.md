@@ -1,14 +1,17 @@
 # Security Policy
 
-## Supported Versions
-This repository is a training lab. Security fixes are applied on the `develop` branch.
+## Supported versions
+This repository is a training lab.
+Security fixes are applied on the `develop` branch.
 
-## Reporting a Vulnerability
+## Reporting a vulnerability
 Please do not open a public issue.
 
-Use GitHub "Report a vulnerability" (Security tab) if available, or contact the maintainers privately.
+Preferred: use GitHub "Report a vulnerability" (Security tab) if available.
+Otherwise, contact the maintainer privately (GitHub profile contact).
+
 Include:
+- affected component(s)
 - steps to reproduce
-- affected component/version
 - impact assessment
-- proof-of-concept (if safe)
+- suggested fix or mitigation (if known)
