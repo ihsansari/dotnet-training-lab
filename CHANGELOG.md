@@ -105,3 +105,18 @@ We run:
 - `SECURITY.md`
   - **Why**: Provides a clear, private path for vulnerability disclosure.
   - **Security impact**: Reduces accidental public exposure of exploit details and standardizes how security issues are handled.
+
+"  - **Why**: Pin GitHub Actions to immutable commit SHAs.\n"
+"  - **Security impact**: Prevents a compromised/moved tag (e.g., `@v4`) from silently changing the CI code that executes.\n"
+
+
+`.github/workflows/*.yml`
+"  - **Why**: Pin GitHub Actions to immutable commit SHAs.\n"
+"  - **Security impact**: Prevents a compromised/moved tag (e.g., `@v4`) from silently changing the CI code that executes.\n"
+
+## 2026-02-02 — GitHub Actions supply-chain hardening documentation
+
+### Added
+- `docs/security/github_action.md`
+  - **Why**: Explains why we pin GitHub Actions to full commit SHAs.
+  - **Security impact**: Prevents CI code from changing silently via moved/compromised tags and makes workflow code immutable and reviewable. This is not theoretical: in March 2025, a popular third-party GitHub Action was compromised and version tags were retroactively moved to malicious commits (CVE-2025-30066), leading to CI secret exposure.
