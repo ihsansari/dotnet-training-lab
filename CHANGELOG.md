@@ -98,3 +98,10 @@ We run:
 
 - NuGet lock files (`packages.lock.json`) + CI locked restore
   - Security impact: prevents silent transitive dependency drift; CI fails unless dependency changes are explicit and reviewable.
+
+## 2026-01-31 — Security policy
+
+### Added
+- `SECURITY.md`
+  - **Why**: Provides a clear, private path for vulnerability disclosure.
+  - **Security impact**: Reduces accidental public exposure of exploit details and standardizes how security issues are handled.
