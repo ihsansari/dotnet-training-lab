@@ -71,7 +71,7 @@ We run:
 - `src/ST.Security.Api/Program.cs`
   - **Why these defaults / what they do (and which headers you get)**:
     - `app.UseHsts()` (only outside Development):
-      - Adds the response header **`Strict-Transport-Security`** (HSTS). Default `max-age` is **30 days** if you don’t configure it (e.g., `Strict-Transport-Security: max-age=2592000`). Browsers that honor HSTS will automatically prefer HTTPS for this host going forward. :contentReference[oaicite:0]{index=0}
+      - Adds the response header **`Strict-Transport-Security`** (HSTS). Default `max-age` is **30 days** if you don’t configure it (e.g., `Strict-Transport-Security: max-age=2592000`). Browsers that honor HSTS will automatically prefer HTTPS for this host going forward.
       - Kept off in Development because browsers cache HSTS aggressively (can “brick” local HTTP testing); loopback hosts are excluded by default.
     - `app.UseHttpsRedirection()`:
       - For an **HTTP** request, returns a redirect using the default **307 Temporary Redirect** and includes a **`Location`** header pointing to the HTTPS URL. This reduces accidental plaintext access (but ideally APIs should not listen on HTTP at all in production).
