@@ -120,3 +120,5 @@ We run:
 - `docs/security/github_action.md`
   - **Why**: Explains why we pin GitHub Actions to full commit SHAs.
   - **Security impact**: Prevents CI code from changing silently via moved/compromised tags and makes workflow code immutable and reviewable. This is not theoretical: in March 2025, a popular third-party GitHub Action was compromised and version tags were retroactively moved to malicious commits (CVE-2025-30066), leading to CI secret exposure.
+
+- Security: Add a PR gate that fails if any workflow uses non-SHA-pinned GitHub Actions, preventing mutable tag references from re-entering the repo (CI supply-chain hardening).
