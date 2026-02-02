@@ -6,22 +6,23 @@ on:
   pull_request:
     branches: [ develop ]
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Setup .NET (from global.json)
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@baa11fbfe1d6520db94683bd5c7a3818018e4309 # v5.1.0
         with:
           global-json-file: global.json
 
       - name: Restore (locked + vuln gate)
-        run: dotnet restore ST.Security.slnx --use-lock-file --locked-mode -warnaserror:NU1902,NU1903,NU1904
+        run: dotnet restore ST.Security.slnx --locked-mode -warnaserror:NU1902,NU1903,NU1904
 
       - name: Build (CI mode, no implicit restore)
         run: dotnet build ST.Security.slnx -c Release --no-restore -p:ContinuousIntegrationBuild=true
-
-
