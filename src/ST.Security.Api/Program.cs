@@ -1,4 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
+
+// Hardening: reduce header-based fingerprinting (Kestrel adds `Server` by default)
+builder.WebHost.ConfigureKestrel(o => o.AddServerHeader = false);
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
