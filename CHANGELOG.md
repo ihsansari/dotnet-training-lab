@@ -122,3 +122,10 @@ We run:
   - **Security impact**: Prevents CI code from changing silently via moved/compromised tags and makes workflow code immutable and reviewable. This is not theoretical: in March 2025, a popular third-party GitHub Action was compromised and version tags were retroactively moved to malicious commits (CVE-2025-30066), leading to CI secret exposure.
 
 - Security: Add a PR gate that fails if any workflow uses non-SHA-pinned GitHub Actions, preventing mutable tag references from re-entering the repo (CI supply-chain hardening).
+
+## 2026-02-03 — Remove Server header
+
+### Changed
+- `src/ST.Security.Api/Program.cs`
+  - **Why**: Disables Kestrel `Server` header (`AddServerHeader=false`).
+  - **Security impact**: Reduces HTTP fingerprinting surface. See `docs/security/disable_kestrel_server_header.md`.
