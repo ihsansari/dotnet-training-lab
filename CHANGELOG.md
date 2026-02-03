@@ -71,7 +71,7 @@ We run:
 - `src/ST.Security.Api/Program.cs`
   - **Why these defaults / what they do (and which headers you get)**:
     - `app.UseHsts()` (only outside Development):
-      - Adds the response header **`Strict-Transport-Security`** (HSTS). Default `max-age` is **30 days** if you don’t configure it (e.g., `Strict-Transport-Security: max-age=2592000`). Browsers that honor HSTS will automatically prefer HTTPS for this host going forward. :contentReference[oaicite:0]{index=0}
+      - Adds the response header **`Strict-Transport-Security`** (HSTS). Default `max-age` is **30 days** if you don’t configure it (e.g., `Strict-Transport-Security: max-age=2592000`). Browsers that honor HSTS will automatically prefer HTTPS for this host going forward.
       - Kept off in Development because browsers cache HSTS aggressively (can “brick” local HTTP testing); loopback hosts are excluded by default.
     - `app.UseHttpsRedirection()`:
       - For an **HTTP** request, returns a redirect using the default **307 Temporary Redirect** and includes a **`Location`** header pointing to the HTTPS URL. This reduces accidental plaintext access (but ideally APIs should not listen on HTTP at all in production).
@@ -120,3 +120,5 @@ We run:
 - `docs/security/github_action.md`
   - **Why**: Explains why we pin GitHub Actions to full commit SHAs.
   - **Security impact**: Prevents CI code from changing silently via moved/compromised tags and makes workflow code immutable and reviewable. This is not theoretical: in March 2025, a popular third-party GitHub Action was compromised and version tags were retroactively moved to malicious commits (CVE-2025-30066), leading to CI secret exposure.
+
+- Security: Add a PR gate that fails if any workflow uses non-SHA-pinned GitHub Actions, preventing mutable tag references from re-entering the repo (CI supply-chain hardening).
