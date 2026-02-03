@@ -127,5 +127,5 @@ We run:
 
 ### Changed
 - `src/ST.Security.Api/Program.cs`
-  - **Why**: Disables Kestrel’s `Server` header (`AddServerHeader=false`).
-  - **Security impact**: Reduces HTTP response header information disclosure (less tech fingerprinting during reconnaissance).
+  - **Why**: Disables Kestrel `Server` header (`AddServerHeader=false`).
+  - **Security impact**: Reduces HTTP fingerprinting surface. See `docs/security/disable_kestrel_server_header.md`.
