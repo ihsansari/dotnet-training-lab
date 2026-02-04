@@ -145,3 +145,10 @@ We run:
 
 - Secret scanning gate (Gitleaks)
   - Security impact: blocks PRs when hardcoded secrets are detected; complements GitHub secret scanning/push protection. See `docs/security/secret_scanning_gitleaks.md`.
+
+## Unreleased
+
+- `.github/workflows/scorecard.yml`
+  - **Why**: Runs OpenSSF Scorecard and uploads findings as SARIF to GitHub Code Scanning.
+  - **Security impact**: Adds an automated “security posture” gate/visibility layer (repo + CI supply-chain best practices) on top of package vuln scanning and SAST.
+  - **Implementation**: SHA-pinned actions + least-privilege permissions (`security-events: write` only for SARIF upload).
