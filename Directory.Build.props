@@ -14,4 +14,11 @@
       $(WarningsAsErrors);NU1902;NU1903;NU1904
     </WarningsAsErrors>
   </PropertyGroup>
+  <PropertyGroup>
+    <!-- Static analysis baseline (security) -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>10-recommended</AnalysisLevel>
+    <AnalysisModeSecurity>All</AnalysisModeSecurity>
+  </PropertyGroup>
+
 </Project>

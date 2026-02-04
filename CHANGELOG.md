@@ -129,3 +129,12 @@ We run:
 - `src/ST.Security.Api/Program.cs`
   - **Why**: Disables Kestrel `Server` header (`AddServerHeader=false`).
   - **Security impact**: Reduces HTTP fingerprinting surface. See `docs/security/disable_kestrel_server_header.md`.
+## Unreleased
+- `Directory.Build.props`
+  - **Why**: Pins analyzer baseline to `.NET 10` and enables all Security analyzers.
+  - **Security impact**: Adds a code-level security net (CA security rules), not just dependency scanning; prevents silent analyzer drift after SDK updates.
+- `.github/workflows/ci.yml`
+  - **Why**: Sets `CodeAnalysisTreatWarningsAsErrors=true` in CI builds.
+  - **Security impact**: Analyzer findings become a hard PR gate (build fails), so insecure patterns are blocked before merge.
+- `docs/security/dotnet_analyzers.md`
+  - **Why**: Documents the policy and the tradeoffs for reviewers.
