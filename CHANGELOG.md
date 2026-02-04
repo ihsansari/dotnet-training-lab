@@ -138,3 +138,7 @@ We run:
   - **Security impact**: Analyzer findings become a hard PR gate (build fails), so insecure patterns are blocked before merge.
 - `docs/security/dotnet_analyzers.md`
   - **Why**: Documents the policy and the tradeoffs for reviewers.
+
+- Dependency vulnerability report (CI artifact)
+  - Why: Produce a JSON report of vulnerable dependencies (including transitive) and upload it from CI.
+  - Security impact: Easier triage/evidence than log-only NU190x warnings; complements the restore gate. See `docs/security/dependency_vulnerability_report.md`.
