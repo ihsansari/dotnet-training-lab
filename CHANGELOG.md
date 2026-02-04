@@ -152,3 +152,6 @@ We run:
   - **Why**: Runs OpenSSF Scorecard and uploads findings as SARIF to GitHub Code Scanning.
   - **Security impact**: Adds an automated “security posture” gate/visibility layer (repo + CI supply-chain best practices) on top of package vuln scanning and SAST.
   - **Implementation**: SHA-pinned actions + least-privilege permissions (`security-events: write` only for SARIF upload).
+
+- Kestrel DoS hardening (timeouts + size limits)
+  - Security impact: reduces slow-header attack window and caps header/body abuse. See `docs/security/kestrel_limits.md`.
