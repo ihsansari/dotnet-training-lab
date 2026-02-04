@@ -2,9 +2,9 @@ name: ci
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
   pull_request:
-    branches: [ develop ]
+    branches: [develop]
 
 permissions:
   contents: read
@@ -26,3 +26,16 @@ jobs:
 
       - name: Build (CI mode, no implicit restore)
         run: dotnet build ST.Security.slnx -c Release --no-restore -p:ContinuousIntegrationBuild=true -p:CodeAnalysisTreatWarningsAsErrors=true
+
+      - name: Dependency vulnerability report (json)
+        run: |
+          mkdir -p artifacts
+          dotnet package list --project ST.Security.slnx --include-transitive --vulnerable --format json --output-version 1 --no-restore > artifacts/dependencyReport.json
+
+      - name: Upload dependency report
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: dependency-report
+          path: artifacts/dependencyReport.json
+          if-no-files-found: ignore
+          retention-days: 14
