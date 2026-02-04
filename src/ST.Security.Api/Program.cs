@@ -1,7 +1,19 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Hardening: reduce header-based fingerprinting (Kestrel adds `Server` by default)
-builder.WebHost.ConfigureKestrel(o => o.AddServerHeader = false);
+builder.WebHost.ConfigureKestrel((context, o) =>
+{
+    // removes "Server: Kestrel"
+    o.AddServerHeader = false;
+
+    builder.WebHost.ConfigureKestrel(o =>
+    {
+        o.AddServerHeader = false;
+        o.Limits.RequestHeadersTimeout = TimeSpan.FromSeconds(15);
+        o.Limits.MaxRequestHeadersTotalSize = 16 * 1024;
+        o.Limits.MaxRequestBodySize = 10 * 1024 * 1024;
+    });
+});
 
 var app = builder.Build();
 
