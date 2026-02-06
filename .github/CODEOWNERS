@@ -1,0 +1,19 @@
+# Security-sensitive ownership
+# Note: code owners must have write access to the repo. :contentReference[oaicite:1]{index=1}
+
+# CI / automation (highest risk surface)
+/.github/workflows/ @ihsansari
+/.github/dependabot.yml @ihsansari
+
+# Supply-chain / build pinning
+/global.json @ihsansari
+/nuget.config @ihsansari
+/Directory.Build.props @ihsansari
+/Directory.Packages.props @ihsansari
+/**/packages.lock.json @ihsansari
+
+# Security docs (avoid “silent” policy drift)
+/docs/security/ @ihsansari
+
+# Protect the CODEOWNERS file itself
+/.github/CODEOWNERS @ihsansari

@@ -155,3 +155,6 @@ We run:
 
 - Kestrel DoS hardening (timeouts + size limits)
   - Security impact: reduces slow-header attack window and caps header/body abuse. See `docs/security/kestrel_limits.md`.
+
+- CODEOWNERS for sensitive paths
+  - Security impact: forces explicit review ownership for workflow/supply-chain/security policy files; can be enforced via branch protection “Require review from Code Owners”. See `docs/security/codeowners.md`.
